@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SYLMA'S WANPOT — Online Store</title>
+<meta name="description" content="SYLMA'S WANPOT — cosmetics, skincare, food, human hair, clothes, Ankara materials, boubou gowns, trousers, maxi skirts, heels and tailoring.">
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#fff8fb;color:#241b22}
+header{background:#8d174f;color:#fff;padding:18px 16px;position:sticky;top:0;z-index:5}.nav{max-width:1100px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:12px}.logo{font-size:22px;font-weight:800}.tag{font-size:12px;opacity:.9}
+.hero{background:linear-gradient(135deg,#8d174f,#d45a91);color:white;padding:55px 18px;text-align:center}.hero h1{font-size:38px;margin:0 0 12px}.hero p{max-width:700px;margin:0 auto 22px;line-height:1.6}
+.btn{display:inline-block;border:0;border-radius:10px;padding:12px 18px;background:#fff;color:#8d174f;font-weight:700;text-decoration:none;cursor:pointer}.wrap{max-width:1100px;margin:auto;padding:28px 16px}h2{margin-top:0}
+.categories{display:flex;flex-wrap:wrap;gap:9px;margin:15px 0 25px}.cat{border:1px solid #d8b8c8;background:white;border-radius:999px;padding:9px 14px;cursor:pointer}.cat.active{background:#8d174f;color:white}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}.card{background:white;border-radius:16px;overflow:hidden;box-shadow:0 5px 18px #00000012;border:1px solid #f0dce7}.card .pic{height:190px;background:linear-gradient(135deg,#f4dbe7,#fff);display:flex;align-items:center;justify-content:center;font-size:52px}.card .body{padding:16px}.price{font-size:20px;font-weight:800;color:#8d174f}.muted{color:#756a71;font-size:14px;line-height:1.5}
+.order{background:#fff;border-radius:18px;padding:22px;box-shadow:0 5px 18px #00000010;margin-top:30px}footer{background:#241b22;color:white;padding:30px 16px;margin-top:35px}.footerin{max-width:1100px;margin:auto;line-height:1.8}
+input,select,textarea{width:100%;padding:12px;border:1px solid #dbc7d1;border-radius:9px;margin:6px 0 12px;font:inherit}textarea{min-height:90px}.whatsapp{background:#168c4b;color:white}
+@media(max-width:600px){.hero h1{font-size:30px}.nav{align-items:flex-start;flex-direction:column}}
+</style>
+</head>
+<body>
+<header><div class="nav"><div><div class="logo">SYLMA'S WANPOT</div><div class="tag">Style • Beauty • More</div></div><a class="btn" href="#order">Order Now</a></div></header>
+<section class="hero"><h1>Welcome to SYLMA'S WANPOT</h1><p>Your online destination for cosmetics, skincare, human hair, clothes, Ankara materials, boubou styles, heels, food and tailoring services.</p><a class="btn" href="#shop">Explore Products</a></section>
+<main class="wrap" id="shop"><h2>Our Products & Services</h2><div class="categories" id="categories"></div><div class="grid" id="products"></div>
+<section class="order" id="order"><h2>Place an Order</h2><p class="muted">Choose an item, enter your details, then send the order directly to SYLMA'S WANPOT on WhatsApp.</p>
+<label>Product</label><select id="productSelect"></select><label>Your name</label><input id="name" placeholder="Enter your name"><label>Phone number</label><input id="phone" placeholder="Enter your phone number"><label>Quantity</label><input id="qty" type="number" min="1" value="1"><label>Message / delivery details</label><textarea id="message" placeholder="Tell us your size, colour, delivery location, etc."></textarea><button class="btn whatsapp" onclick="sendOrder()">Order on WhatsApp</button></section></main>
+<footer><div class="footerin"><strong>SYLMA'S WANPOT</strong><br>Phone: 078528571<br>Email: marvellangley1@gmail.com<br>WhatsApp: +232 78 528 571<br>© 2026 SYLMA'S WANPOT. All rights reserved.</div></footer>
+<script>
+const products=[
+{name:"Cosmetics",cat:"Cosmetics",price:"Contact us",icon:"💄",desc:"Beauty and cosmetic products."},{name:"Skincare",cat:"Skincare",price:"Contact us",icon:"🧴",desc:"Skincare products for your beauty routine."},{name:"Human Hair",cat:"Human Hair",price:"Contact us",icon:"💇🏽‍♀️",desc:"Human hair and hair products."},{name:"Clothes",cat:"Clothes",price:"Contact us",icon:"👗",desc:"Fashionable clothing for different occasions."},{name:"Ankara Materials",cat:"Ankara",price:"Contact us",icon:"🧵",desc:"Beautiful Ankara materials."},{name:"Boubou Gowns",cat:"Boubou",price:"Contact us",icon:"👘",desc:"Elegant boubou gowns."},{name:"Boubou Trousers",cat:"Boubou",price:"Contact us",icon:"👖",desc:"Comfortable and stylish boubou trousers."},{name:"Ankara Maxi Skirts",cat:"Ankara",price:"Contact us",icon:"🩷",desc:"Ankara maxi skirts and styles."},{name:"Heels",cat:"Shoes",price:"Contact us",icon:"👠",desc:"Fashion heels."},{name:"Food",cat:"Food",price:"Contact us",icon:"🍲",desc:"Food and related orders."},{name:"Tailoring",cat:"Tailoring",price:"Contact us",icon:"✂️",desc:"Tailoring and custom clothing services."}];
+let active="All";
+function render(){const cats=["All",...new Set(products.map(p=>p.cat))];document.getElementById("categories").innerHTML=cats.map(c=>`<button class="cat ${c===active?"active":""}" onclick="filterCat('${c}')">${c}</button>`).join("");const shown=active==="All"?products:products.filter(p=>p.cat===active);document.getElementById("products").innerHTML=shown.map(p=>`<article class="card"><div class="pic">${p.icon}</div><div class="body"><h3>${p.name}</h3><div class="price">${p.price}</div><p class="muted">${p.desc}</p><button class="btn" onclick="choose('${p.name}')">Order this</button></div></article>`).join("");document.getElementById("productSelect").innerHTML=products.map(p=>`<option>${p.name}</option>`).join("")}
+function filterCat(c){active=c;render()} function choose(n){document.getElementById("productSelect").value=n;location.hash="order"}
+function sendOrder(){const n=document.getElementById("name").value.trim(),ph=document.getElementById("phone").value.trim(),p=document.getElementById("productSelect").value,q=document.getElementById("qty").value,m=document.getElementById("message").value.trim();if(!n||!ph){alert("Please enter your name and phone number.");return}const text=`Hello SYLMA'S WANPOT,%0A%0AName: ${encodeURIComponent(n)}%0APhone: ${encodeURIComponent(ph)}%0AProduct: ${encodeURIComponent(p)}%0AQuantity: ${encodeURIComponent(q)}%0ADetails: ${encodeURIComponent(m)}`;window.open(`https://wa.me/23278528571?text=${text}`,"_blank")}render();
+</script>
+</body>
+</html>
